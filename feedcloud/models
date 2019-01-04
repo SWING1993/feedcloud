@@ -1,0 +1,11 @@
+from django.db import models
+
+
+class CodeModel(models.Model):
+    # 名字最长为50个字符
+    name = models.CharField(max_length=50)
+    # 这个字段没有文本长度的限制
+    code = models.TextField()
+
+    def __str__(self):
+        return 'Code(name={}, id={})'.format(self.name, self.id)

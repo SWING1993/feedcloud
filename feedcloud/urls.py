@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 
-from . import view
+from . import views
 
 urlpatterns = [
-    url(r'^$', view.hello),
-    url(r'^api/$', view.api)
+    url(r'^$', views.hello),
+    url(r'^api/$', views.api)
 ]

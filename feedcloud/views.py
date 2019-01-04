@@ -13,7 +13,6 @@ def hello(request):
         html = f.read()
     return HttpResponse(html)
 
-
 @csrf_exempt
 @require_POST
 def api(request):
@@ -24,7 +23,7 @@ def api(request):
 
 def run_code(code):
     try:
-        output = subprocess.check_output(['python', '-c', code],universal_newlines=True, stderr=subprocess.STDOUT, timeout=30)
+        output = subprocess.check_output(['python', '-c', code], universal_newlines=True, stderr=subprocess.STDOUT, timeout=30)
 
     except subprocess.CalledProcessError as e:
         output = e.output
@@ -33,7 +32,6 @@ def run_code(code):
         output = '\r\n'.join(['Time Out!!!', e.output])
 
     return output
-
 
 code = """print('Test success')"""
 print(run_code(code))
