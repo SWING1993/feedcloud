@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Python在线解释器</title>
+
+    <style type="text/css">
+        #run {
+            width: 20%;
+            margin-top: 10px;
+        }
+        #code {
+            font-size: 25px;
+            resize: none;
+        }
+        #output {
+            font-size: 25px;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12"> <!-- 根据 bs规定，所有内容应放在 col 中。这一列占满一行 -->
+           <p class="text-center h1"> <!-- text-center 类是 bs 中央排版，h1 是 bs 一号标题类 -->
+           在线 Python 解释器
+         </p>
+       </div>
+    </div>
+    <hr><!-- 标题和真正内容的分割线 -->
+    <div class="row">
+       <div class="col-lg-6">
+           <!-- 代码输入部分 -->
+           <p class="text-center h3">
+               在下面输入代码
+           </p>
+           <textarea id="code" class="form-control" placeholder="Your code here."></textarea>
+           <button id ="run" type="button" class="btn btn-primary">Run</button>
+       </div>
+        <div class="col-lg-6">
+           <!-- 结果输出部分 -->
+           <p class="text-center h3">运行结果</p>
+           <div class="col-lg-12"><textarea id="output" disabled placeholder="Please input your code and click <run> button to excute your python script" class="text-center form-control"></textarea></div>
+       </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    function changeSize(ele) {
+        $(ele).css({'height':'auto','overflow-y':'hidden'}).height(ele.scrollHeight)
+    }
+
+    function getCode() {
+        return $('#code').val()
+    }
+
+    function print(data) {
+        var ele = document.getElementById('output')
+        ele.value = data['output']
+        changeSize(ele)
+    }
+
+    $('#code').each(function () {
+        this.oninput = function () {
+            changeSize(this)
+        }
+    })
+
+    $('#run').click(function () {
+            $.ajax({
+                url:'/api/',
+                type:'POST',
+                data:{'code':getCode()},
+                dataType:'json',
+                success:print
+            })
+    })
+</script>
+</body>
+
+</html>
